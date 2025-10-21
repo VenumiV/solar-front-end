@@ -1,5 +1,5 @@
 import Navigation from "./components/Navigation/Navigation";
-import HeroSection from "./components/HeroSection/HeroSection";
+import HeroSection from "./pages/home/components/HeroSection/HeroSection";
 import SolarEnergyProduction from "./components/SolarEnergyProduction";
 
 function App() {
