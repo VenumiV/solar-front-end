@@ -1,6 +1,11 @@
+import { Button } from "@/components/ui/button";
+import { getEnergyGenerationRecordsBySolarUnit } from "@/lib/api/energy-generation-record";
+import { useSelector } from "react-redux";
 import EnergyProductionCards from "./EnergyProductionCards";
 import Tab from "./Tab";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useGetEnergyGenerationRecordsBySolarUnitQuery } from "@/lib/redux/query";
 
 const SolarEnergyProduction = () => {
   const energyProductionData = [
@@ -35,7 +40,10 @@ const SolarEnergyProduction = () => {
     }
   });
 
-  // console.log(filteredEnergyProductionData);
+  const { data, isLoading, isError, error } =
+    useGetEnergyGenerationRecordsBySolarUnitQuery("690168dc6404d73408e196e2");
+
+  console.log(data, isLoading);
 
   return (
     <section className="px-12 font-[Inter] py-6">
@@ -48,6 +56,9 @@ const SolarEnergyProduction = () => {
           return <Tab key={tab.value} tab={tab} />;
         })}
       </div>
+      {/* <div className="mt-4">
+        <Button onClick={handleGetData}>Get Data</Button>
+      </div> */}
       <EnergyProductionCards
         energyProductionData={filteredEnergyProductionData}
       />
@@ -56,3 +67,8 @@ const SolarEnergyProduction = () => {
 };
 
 export default SolarEnergyProduction;
+
+
+
+
+//getSolarUnitById("690168dc6404d73408e196e2");
