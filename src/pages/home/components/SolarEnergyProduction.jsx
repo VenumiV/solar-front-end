@@ -5,6 +5,7 @@ import EnergyProductionCards from "./EnergyProductionCards";
 import Tab from "./Tab";
 import { useEffect } from "react";
 import { useState } from "react";
+import { subDays, toDate, format } from "date-fns";
 import { useGetEnergyGenerationRecordsBySolarUnitQuery } from "@/lib/redux/query";
 
 const SolarEnergyProduction = () => {
@@ -32,7 +33,30 @@ const SolarEnergyProduction = () => {
   //   ? energyProductionData.filter((el) => el.hasAnomaly)
   //   : [];
 
-  const filteredEnergyProductionData = energyProductionData.filter((el) => {
+  const { data, isLoading, isError, error } =
+    useGetEnergyGenerationRecordsBySolarUnitQuery({
+      id: "690c024481b1e60d4e380875",
+      groupBy: "date",
+    });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!data || isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const newEnergyProductionData = data.slice(0, 7).map((el) => {
+    return {
+      day: format(toDate(el._id.date), "EEE"),
+      date: format(toDate(el._id.date), "MMM d"),
+      production: el.totalEnergy,
+      hasAnomaly: false,
+    };
+  });
+
+  const filteredEnergyProductionData = newEnergyProductionData.filter((el) => {
     if (selectedTab === "all") {
       return true;
     } else if (selectedTab === "anomaly") {
@@ -40,10 +64,7 @@ const SolarEnergyProduction = () => {
     }
   });
 
-  const { data, isLoading, isError, error } =
-    useGetEnergyGenerationRecordsBySolarUnitQuery("690168dc6404d73408e196e2");
-
-  console.log(data, isLoading);
+  console.log(filteredEnergyProductionData);
 
   return (
     <section className="px-12 font-[Inter] py-6">
@@ -56,9 +77,6 @@ const SolarEnergyProduction = () => {
           return <Tab key={tab.value} tab={tab} />;
         })}
       </div>
-      {/* <div className="mt-4">
-        <Button onClick={handleGetData}>Get Data</Button>
-      </div> */}
       <EnergyProductionCards
         energyProductionData={filteredEnergyProductionData}
       />
@@ -67,8 +85,3 @@ const SolarEnergyProduction = () => {
 };
 
 export default SolarEnergyProduction;
-
-
-
-
-//getSolarUnitById("690168dc6404d73408e196e2");
