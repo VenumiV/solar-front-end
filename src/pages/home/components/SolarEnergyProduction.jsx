@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { getEnergyGenerationRecordsBySolarUnit } from "@/lib/api/energy-generation-record";
 import { useSelector } from "react-redux";
 import EnergyProductionCards from "./EnergyProductionCards";
 import Tab from "./Tab";
