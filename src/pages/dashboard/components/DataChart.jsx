@@ -28,6 +28,8 @@ const DataCard = ({ data, isLoading, isError, error }) => {
     return null;
   }
 
+  //Here goes to the selecting part using data.slice
+
   const lastSelectedRangeDaysEnergyProduction = data
     .slice(0, parseInt(selectedRange))
     .map((el) => {
@@ -47,6 +49,8 @@ const DataCard = ({ data, isLoading, isError, error }) => {
   const title = "Energy Production Chart";
 
   console.log(lastSelectedRangeDaysEnergyProduction);
+
+  //Here the select component takes the slicing part from above and shows the selected chart
 
   return (
     <Card className="rounded-md p-4">

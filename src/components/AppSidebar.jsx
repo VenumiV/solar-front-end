@@ -32,6 +32,25 @@ const items = [
   },
 ];
 
+
+  const SideBarTab = ({ item }) => {
+    let location = useLocation();
+    let isActive = location.pathname === item.url;
+  
+    return (
+      <SidebarMenuItem key={item.url}>
+        <SidebarMenuButton asChild isActive={isActive}>
+          <Link
+            to={item.url}
+          >
+            {item.icon}
+            <span>{item.title}</span>
+          </Link>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    );
+  };
+  
 export function AppSidebar() {
   return (
     <Sidebar>
@@ -41,16 +60,9 @@ export function AppSidebar() {
           <Link to="/">Aelora</Link>
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="mt-4 text">
+          <SidebarMenu className="mt-4 text">
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      {item.icon}
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                <SideBarTab key={item.url} item={item} />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
