@@ -1,9 +1,18 @@
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format, toDate } from "date-fns";
+import { useGetEnergyGenerationRecordsBySolarUnitQuery } from "@/lib/redux/query";
 
-const DataCard = ({ data, isLoading, isError, error, title = "Data Overview" }) => {
-  if (isLoading) {
+const DataCard = ({ title = "Data Overview",solarUnitId }) => {
+  
+    const { data, isLoading, isError, error } =
+    useGetEnergyGenerationRecordsBySolarUnitQuery({
+      id: solarUnitId,
+      groupBy: "date",
+      limit: 7,
+    });
+  //Here error state is handled so in dataCard title would be enough
+    if (isLoading) {
     return (
       <Card className="rounded-md p-4">
         <Skeleton className="h-6 w-64 mb-4" />

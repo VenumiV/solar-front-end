@@ -8,7 +8,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   endpoints: (build) => ({
     getEnergyGenerationRecordsBySolarUnit: build.query({
-      query: ({id, groupBy}) => `/energy-generation-records/solar-unit/${id}?groupBy=${groupBy}`,
+      query: ({id, groupBy,limit}) => `/energy-generation-records/solar-unit/${id}?groupBy=${groupBy}&limit=${limit}`,
     }),
   }),
 });
