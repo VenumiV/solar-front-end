@@ -8,9 +8,14 @@ import DashboardPage from "./pages/dashboard/dashboard.page.jsx";
 
 import RootLayout from "./layouts/root.layout.jsx";
 import MainLayout from "./layouts/main.layout.jsx";
+import AdminLayout from "./layouts/admin.layout";
 import DashboardLayout from "./layouts/dashboard.layout.jsx";
 import SignInPage from "./pages/auth/sign-in-page.jsx";
 import SignUpPage from "./pages/auth/sign-up-page.jsx";
+import SolarUnitsPage from "./pages/admin/solar-units.page.jsx";
+import SettingsPage from "./pages/admin/settings.page.jsx";
+import SolarUnitDetailPage from "./pages/admin/solar-unit-detail.page.jsx";
+
 
 import ProtectedLayout from "./layouts/protected.layout";
 
@@ -18,7 +23,7 @@ import { store } from "@/lib/redux/store.js";
 import { Provider } from "react-redux";
 import { ClerkProvider } from '@clerk/clerk-react';
 import AuthorizedLayout from "./layouts/authorized.layout";
-import AdminPage from "./pages/admin/admin.page";
+import AdminPage from "./pages/admin/admin.page.jsx";
 
 
 
@@ -45,8 +50,13 @@ createRoot(document.getElementById("root")).render(
               <Route path="/dashboard" element={<DashboardPage />} />
             </Route>
             <Route element={<AuthorizedLayout />}>
-            <Route path="/admin/dashboard" element={<AdminPage/>} />
-            </Route>
+                  <Route element={<AdminLayout />}>
+                    <Route path="/admin" element={<AdminPage />} />
+                    <Route path="/admin/solar-units" element={<SolarUnitsPage />} />
+                    <Route path="/admin/solar-units/:id" element={<SolarUnitDetailPage />} />
+                    <Route path="/admin/settings" element={<SettingsPage />} />
+                  </Route>
+                </Route>
             </Route>
           </Route>
         </Routes>

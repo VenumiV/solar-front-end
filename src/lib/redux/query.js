@@ -18,18 +18,24 @@ export const api = createApi({
   
    return headers;
  } }),
+
   endpoints: (build) => ({
     getEnergyGenerationRecordsBySolarUnit: build.query({
       query: ({id, groupBy,limit}) => `/energy-generation-records/solar-unit/${id}?groupBy=${groupBy}&limit=${limit}`,
     }),
+
     getSolarUnitforUser: build.query({
       query: () => `/solar-units/me`,
-      
-      
+    }),
+    getSolarUnits: build.query({
+      query: () => `/solar-units`,
+    }),
+    getSolarUnitById: build.query({
+      query: (id) => `/solar-units/${id}`,
     }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetEnergyGenerationRecordsBySolarUnitQuery, useGetSolarUnitforUserQuery } = api;
+export const { useGetEnergyGenerationRecordsBySolarUnitQuery, useGetSolarUnitforUserQuery, useGetSolarUnitsQuery, useGetSolarUnitByIdQuery } = api;
