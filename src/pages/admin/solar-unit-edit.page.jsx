@@ -6,7 +6,7 @@ import { ArrowLeft, Zap, Calendar, Gauge, Activity } from "lucide-react";
 import { format } from "date-fns";
 import { useGetSolarUnitByIdQuery } from "@/lib/redux/query";
 
-export default function SolarUnitDetailPage() {
+export default function SolarUnitEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -136,7 +136,7 @@ export default function SolarUnitDetailPage() {
               <div>
                 <p className="text-sm text-muted-foreground mb-1">User ID</p>
                 <p className="text-sm font-mono text-foreground">
-                  {solarUnit.userId ?? "No user Assigned"}
+                  {solarUnit.userId}
                 </p>
               </div>
             </div>

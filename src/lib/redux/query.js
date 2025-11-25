@@ -33,9 +33,26 @@ export const api = createApi({
     getSolarUnitById: build.query({
       query: (id) => `/solar-units/${id}`,
     }),
+    createSolarUnit: build.mutation({
+      query: (data) => ({
+        url: `/solar-units`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    editSolarUnit: build.mutation({
+      query: ({id, data}) => ({
+        url: `/solar-units/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+    getAllUsers: build.query({
+      query: () => `/users`,
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetEnergyGenerationRecordsBySolarUnitQuery, useGetSolarUnitforUserQuery, useGetSolarUnitsQuery, useGetSolarUnitByIdQuery } = api;
+export const { useGetEnergyGenerationRecordsBySolarUnitQuery, useGetSolarUnitforUserQuery, useGetSolarUnitsQuery, useGetSolarUnitByIdQuery, useCreateSolarUnitMutation, useEditSolarUnitMutation } = api;
