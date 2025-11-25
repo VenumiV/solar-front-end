@@ -40,7 +40,7 @@ export function EditSolarUnitForm({ solarUnit }) {
     const { id } = useParams();
 
     const [editSolarUnit, { isLoading: isEditingSolarUnit }] = useEditSolarUnitMutation();
-
+//get all users
     const { data: users, isLoading: isLoadingUsers, isError: isErrorUsers, error: errorUsers } = useGetAllUsersQuery();
 
 
