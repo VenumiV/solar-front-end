@@ -13,7 +13,9 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useCreateSolarUnitMutation } from "@/lib/redux/query"
+import { useEditSolarUnitMutation } from "@/lib/redux/query"
+import { useParams } from "react-router"
+import { useGetAllUsersQuery } from "@/lib/redux/query"
 
 const formSchema = z.object({
     serialNumber: z.string().min(1, { message: "Serial number is required" }),
@@ -23,7 +25,7 @@ const formSchema = z.object({
     userId: z.string().min(1, { message: "User ID is required" }),
 });
 
-export function CreateSolarUnitForm({ solarUnit }) {
+export function EditSolarUnitForm({ solarUnit }) {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -51,6 +53,7 @@ export function CreateSolarUnitForm({ solarUnit }) {
             console.error(error);
         }
     }
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -115,7 +118,29 @@ export function CreateSolarUnitForm({ solarUnit }) {
                         </FormItem>
                     )}
                 />
-                <Button type="submit" disabled={isCreatingSolarUnit}>{isCreatingSolarUnit ? "Creating..." : "Create"}</Button>
+                <FormField
+                    control={form.control}
+                    name="userId"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>User</FormLabel>
+                            <FormControl>
+                                <Select value={field.value || ""} onValueChange={field.onChange}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select User" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {users?.map((user) => (
+                                            <SelectItem key={user._id} value={user._id}>{user.email}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Button type="submit" disabled={isEditingSolarUnit}>{isEditingSolarUnit ? "Editing..." : "Edit"}</Button>
             </form>
         </Form>
     );
