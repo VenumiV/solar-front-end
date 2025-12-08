@@ -1,20 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedHomeTab: "all",
+  selectedDashboardTab: "all",
 };
 
 export const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    switchHomeTab: (state, action) => {
+    switchDashboardTab: (state, action) => {
       console.log(action);
-      state.selectedHomeTab = action.payload;
+      state.selectedDashboardTab = action.payload;
     },
   },
 });
 
-export const { switchHomeTab } = uiSlice.actions;
+export const { switchDashboardTab } = uiSlice.actions;
 
 export default uiSlice.reducer;

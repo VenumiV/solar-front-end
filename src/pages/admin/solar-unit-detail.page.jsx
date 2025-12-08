@@ -148,16 +148,18 @@ export default function SolarUnitDetailPage() {
           <Card className="p-6 sticky top-4">
             <h3 className="font-semibold text-foreground mb-4">Actions</h3>
             <div className="space-y-3">
-              <Button onClick={handleEdit} className="w-full">
+              <Button className="w-full cursor-pointer"
+               onClick={() => navigate(`/admin/solar-units/${unit._id}/edit`)}
+               >
                 Edit Details
               </Button>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full cursor-pointer">
                 View Performance
               </Button>
               <Button
                 variant="outline"
                 onClick={handleDelete}
-                className="w-full text-red-600 hover:text-red-700"
+                className="w-full text-red-600 hover:text-red-700 cursor-pointer"
               >
                 Delete Unit
               </Button>

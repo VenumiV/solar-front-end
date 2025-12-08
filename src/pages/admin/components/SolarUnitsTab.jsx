@@ -73,7 +73,7 @@ export function SolarUnitsTab() {
                   variant="outline"
                   size="sm"
                   className="flex-1"
-                  onClick={() => navigate(`/admin/solar-units/${unit._id}`)}
+                  onClick={() => navigate(`/admin/solar-units/${unit._id}/edit`)}
                 >
                   Edit
                 </Button>

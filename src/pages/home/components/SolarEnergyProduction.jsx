@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
-import EnergyProductionCards from "./EnergyProductionCards";
-import Tab from "./Tab";
+import EnergyProductionCards from "../../dashboard/components/EnergyProductionCards";
+import Tab from "../../dashboard/components/EnergyTab";
 import { useEffect } from "react";
 import { useState } from "react";
 import { subDays, toDate, format } from "date-fns";

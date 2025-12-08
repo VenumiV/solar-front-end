@@ -1,9 +1,9 @@
 //import { useGetEnergyGenerationRecordsBySolarUnitQuery } from "@/lib/redux/query";
 import { useGetSolarUnitforUserQuery } from "@/lib/redux/query";
-import DataChart from "./components/DataChart";
+import DataCard from "./components/DataCard";
 import { useUser } from "@clerk/clerk-react";
 
-const DashboardPage = () => {
+const AnomaliesPage = () => {
 
   const { user, isLoaded } = useUser(); // from @clerk/clerk-react
 
@@ -33,14 +33,14 @@ const {
   return (
     <main className="mt-4">
       <h1 className="text-4xl font-bold text-foreground">{user?.firstName}'s House</h1>
-      <p className="text-gray-600 mt-2">Welcome back to your Solar Energy Production Dashboard</p>
+      <p className="text-gray-600 mt-2">Monitor Anomalies in your Solar Energy Production</p>
       <div className="mt-8">
-        <DataChart
-         solarUnitId={solarUnit._Id}
+        <DataCard
+          solarUnitId={solarUnit._Id}       
         />
       </div>
     </main>
   );
 }
 
-export default DashboardPage;
+export default AnomaliesPage;

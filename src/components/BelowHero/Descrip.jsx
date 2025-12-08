@@ -119,7 +119,39 @@ const Descrip = () => {
 
      <div className="grid grid-cols-2">
       <div>
+        <div>
+          <h2 className="text-3xl text-black font-bold">Goals</h2>
+          <ul className="list-none space-y-3 text-xl text-black">
+                <li className="before:content-['>'] before:mr-4">
+                Panel shading or dirt                </li>
+                <li className="before:content-['>'] before:mr-4">
+                Unexpected drop in output
+                </li>
+                <li className="before:content-['>'] before:mr-4">
+                Inverter errors
+                </li>
+                <li className="before:content-['>'] before:mr-4">
+                Missed maintenance reminders
+                </li>
+                </ul>
 
+        </div>
+        <div>
+          <h2 className= "text-3xl text-black font-bold">Needs</h2>
+          <ul className="list-none space-y-3 text-xl text-black">
+                <li className="before:content-['>'] before:mr-4">
+                Panel shading or dirt                </li>
+                <li className="before:content-['>'] before:mr-4">
+                Unexpected drop in output
+                </li>
+                <li className="before:content-['>'] before:mr-4">
+                Inverter errors
+                </li>
+                <li className="before:content-['>'] before:mr-4">
+                Missed maintenance reminders
+                </li>
+                </ul>
+        </div>
       </div>
       <div>
       <img

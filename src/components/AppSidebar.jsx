@@ -22,7 +22,7 @@ const items = [
   },
   {
     title: "Anomalies",
-    url: "/dashboard/anomaly",
+    url: "/dashboard/anomalies",
     icon: <TriangleAlert className="w-8 h-8" size={32} />,
   },
   {

@@ -17,7 +17,7 @@ import SettingsPage from "./pages/admin/settings.page.jsx";
 import SolarUnitDetailPage from "./pages/admin/solar-unit-detail.page.jsx";
 import SolarUnitEditPage from "./pages/admin/solar-unit-edit.page.jsx";
 import SolarUnitCreatePage from "./pages/admin/solar-unit-create.page.jsx";
-
+import AnomaliesPage from "./pages/anomalies/anomalies.page.jsx";
 
 
 import ProtectedLayout from "./layouts/protected.layout";
@@ -50,7 +50,8 @@ createRoot(document.getElementById("root")).render(
             </Route>
             <Route element={<ProtectedLayout />}>
             <Route element={<DashboardLayout />}>
-              <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/dashboard/anomalies" element={<AnomaliesPage />} />
             </Route>
             <Route element={<AuthorizedLayout />}>
                   <Route element={<AdminLayout />}>

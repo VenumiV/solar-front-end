@@ -9,7 +9,6 @@ const HomePage = () => {
     <main>
       <Navigation/>
       <HeroSection />
-      <SolarEnergyProduction />
       <Descrip />
     </main>
   );
