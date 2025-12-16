@@ -1,5 +1,7 @@
 import imgWindTurbine from "./wind-turbine.png";
 import { Sailboat, Shield, Triangle, Wind } from "lucide-react";
+import backgroundImage from "@/assets/images/Solar-Panels.png";
+
 
 export default function HeroSection() {
   return (
@@ -7,8 +9,8 @@ export default function HeroSection() {
       {/* Navigation Bar */}
       <nav className="flex flex-wrap items-center justify-between py-6">
         <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-lime-400 sm:h-12 sm:w-12">
-            <Wind className="h-5 w-5 text-black sm:h-6 sm:w-6" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-900 sm:h-12 sm:w-12">
+            <Wind className="h-5 w-5 text-white sm:h-6 sm:w-6" />
           </div>
           <span className="text-center text-xs font-medium text-gray-900 sm:text-left sm:text-sm">
             Solar Energy
@@ -25,8 +27,8 @@ export default function HeroSection() {
         </div>
 
         <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-lime-400 sm:h-12 sm:w-12">
-            <Triangle className="h-5 w-5 fill-current text-black sm:h-6 sm:w-6" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-900 sm:h-12 sm:w-12">
+            <Triangle className="h-5 w-5 fill-current text-white sm:h-6 sm:w-6" />
           </div>
           <span className="text-center text-xs font-medium text-gray-900 sm:text-left sm:text-sm">
             Real-Time Monitoring
@@ -44,7 +46,11 @@ export default function HeroSection() {
       </nav>
 
       {/* Main Content */}
-      <main className="px-4 py-4 md:px-6 md:py-16">
+      <main className="relative px-4 py-4 md:px-6 md:py-16">
+            <div 
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+        />
         <div>
           {/* Hero Section */}
           <div className="mb-12 md:mb-24">
