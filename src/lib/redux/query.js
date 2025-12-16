@@ -21,7 +21,13 @@ export const api = createApi({
 
   endpoints: (build) => ({
     getEnergyGenerationRecordsBySolarUnit: build.query({
-      query: ({id, groupBy,limit}) => `/energy-generation-records/solar-unit/${id}?groupBy=${groupBy}&limit=${limit}`,
+      query: ({id, groupBy, limit}) => {
+        const params = new URLSearchParams();
+        if (groupBy) params.append('groupBy', groupBy);
+        if (limit) params.append('limit', limit.toString());
+        const queryString = params.toString();
+        return `/energy-generation-records/solar-unit/${id}${queryString ? `?${queryString}` : ''}`;
+      },
     }),
 
     getSolarUnitforUser: build.query({
@@ -50,9 +56,48 @@ export const api = createApi({
     getAllUsers: build.query({
       query: () => `/users`,
     }),
+    getCapacityFactorBySolarUnit: build.query({
+      query: ({id, days}) => {
+        const params = new URLSearchParams();
+        if (days) params.append('days', days.toString());
+        const queryString = params.toString();
+        return `/energy-generation-records/solar-unit/${id}/capacity-factor${queryString ? `?${queryString}` : ''}`;
+      },
+    }),
+    getAnomaliesForUser: build.query({
+      query: ({type, severity, resolved}) => {
+        const params = new URLSearchParams();
+        if (type) params.append('type', type);
+        if (severity) params.append('severity', severity);
+        if (resolved !== undefined) params.append('resolved', resolved.toString());
+        const queryString = params.toString();
+        return `/anomalies/me${queryString ? `?${queryString}` : ''}`;
+      },
+    }),
+    getAnomalyStatistics: build.query({
+      query: ({resolved}) => {
+        const params = new URLSearchParams();
+        if (resolved !== undefined) params.append('resolved', resolved.toString());
+        const queryString = params.toString();
+        return `/anomalies/me/statistics${queryString ? `?${queryString}` : ''}`;
+      },
+    }),
+    resolveAnomaly: build.mutation({
+      query: (id) => ({
+        url: `/anomalies/${id}/resolve`,
+        method: "PATCH",
+      }),
+    }),
+    runAnomalyDetection: build.mutation({
+      query: () => ({
+        url: "/anomalies/me/run-detection",
+        method: "POST",
+      }),
+    }),
+    
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {useGetAllUsersQuery, useGetEnergyGenerationRecordsBySolarUnitQuery, useGetSolarUnitforUserQuery, useGetSolarUnitsQuery, useGetSolarUnitByIdQuery, useCreateSolarUnitMutation, useEditSolarUnitMutation } = api;
+export const {useGetAllUsersQuery, useGetEnergyGenerationRecordsBySolarUnitQuery, useGetSolarUnitforUserQuery, useGetSolarUnitsQuery, useGetSolarUnitByIdQuery, useCreateSolarUnitMutation, useEditSolarUnitMutation, useGetCapacityFactorBySolarUnitQuery, useGetAnomaliesForUserQuery, useGetAnomalyStatisticsQuery, useResolveAnomalyMutation } = api;

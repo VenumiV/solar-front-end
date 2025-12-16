@@ -1,8 +1,10 @@
 //import { useGetEnergyGenerationRecordsBySolarUnitQuery } from "@/lib/redux/query";
 import { useGetSolarUnitforUserQuery } from "@/lib/redux/query";
 import DataChart from "./components/DataChart";
+import CapacityFactorChart from "./components/CapacityFactorChart";
 import { useUser } from "@clerk/clerk-react";
 import solarFarm from "./solar-farm.png";
+import useWeather from "@/hooks/useWeather";
 
 const DashboardPage = () => {
 
@@ -16,6 +18,9 @@ const {
 } = useGetSolarUnitforUserQuery(undefined, {
   skip: !user,
 });
+
+// Fetch weather data
+const { weatherData, isLoading: isLoadingWeather, error: weatherError } = useWeather(7.75, 80.75);
 
 
   if (isLoadingSolarUnit) {
@@ -37,7 +42,7 @@ const {
       <h1 className="text-4xl font-bold text-foreground">{user?.firstName}'s House</h1>
       <p className="text-gray-600 mt-2">Welcome back to your Solar Energy Production Dashboard</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <div className="relative w-full h-64">
+      <div className="relative w-full aspect-[16/9]">
   <img
     src={solarFarm}
     alt="Solar farm"
@@ -53,11 +58,23 @@ const {
     <div className="grid grid-cols-2 gap-4 text-white">
       <div>
         <h3 className="font-semibold">Temperature</h3>
-        <p>24°C</p>
+        {isLoadingWeather ? (
+          <p className="animate-pulse">Loading...</p>
+        ) : weatherError ? (
+          <p className="text-red-300">Error</p>
+        ) : (
+          <p>{weatherData?.temperature || "N/A"}°C</p>
+        )}
       </div>
       <div>
         <h3 className="font-semibold">Wind Speed</h3>
-        <p>12 km/h</p>
+        {isLoadingWeather ? (
+          <p className="animate-pulse">Loading...</p>
+        ) : weatherError ? (
+          <p className="text-red-300">Error</p>
+        ) : (
+          <p>{weatherData?.windSpeed || "N/A"} km/h</p>
+        )}
       </div>
     </div>
   </div>
@@ -66,21 +83,21 @@ const {
   <div className="absolute inset-0 bg-black/30 rounded-xl">
   </div>
       </div>
-
-        <div className="bg-blue-500 rounded-2xl">
-          
+        <div className="rounded-2xl">
+        <CapacityFactorChart
+            solarUnitId={solarUnit._id}
+          />
 
         </div>
 
       </div>
-      <div>
-      
       <div className="mt-8">
-        <DataChart
-         solarUnitId={solarUnit._Id}
-        />
-      </div>
-
+        <div>
+          <DataChart
+            solarUnitId={solarUnit._id}
+          />
+          
+        </div>
       </div>
       
     </main>
