@@ -82,6 +82,18 @@ export const api = createApi({
         return `/anomalies/me/statistics${queryString ? `?${queryString}` : ''}`;
       },
     }),
+    // Admin: get all anomalies across system (requires admin role)
+    getAllAnomalies: build.query({
+      query: ({ type, severity, resolved, solarUnitId } = {}) => {
+        const params = new URLSearchParams();
+        if (type) params.append("type", type);
+        if (severity) params.append("severity", severity);
+        if (resolved !== undefined) params.append("resolved", resolved.toString());
+        if (solarUnitId) params.append("solarUnitId", solarUnitId);
+        const queryString = params.toString();
+        return `/anomalies${queryString ? `?${queryString}` : ""}`;
+      },
+    }),
     resolveAnomaly: build.mutation({
       query: (id) => ({
         url: `/anomalies/${id}/resolve`,
@@ -100,4 +112,18 @@ export const api = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {useGetAllUsersQuery, useGetEnergyGenerationRecordsBySolarUnitQuery, useGetSolarUnitforUserQuery, useGetSolarUnitsQuery, useGetSolarUnitByIdQuery, useCreateSolarUnitMutation, useEditSolarUnitMutation, useGetCapacityFactorBySolarUnitQuery, useGetAnomaliesForUserQuery, useGetAnomalyStatisticsQuery, useResolveAnomalyMutation } = api;
+export const {
+  useGetAllUsersQuery,
+  useGetEnergyGenerationRecordsBySolarUnitQuery,
+  useGetSolarUnitforUserQuery,
+  useGetSolarUnitsQuery,
+  useGetSolarUnitByIdQuery,
+  useCreateSolarUnitMutation,
+  useEditSolarUnitMutation,
+  useGetCapacityFactorBySolarUnitQuery,
+  useGetAnomaliesForUserQuery,
+  useGetAnomalyStatisticsQuery,
+  useResolveAnomalyMutation,
+  useRunAnomalyDetectionMutation,
+  useGetAllAnomaliesQuery,
+} = api;

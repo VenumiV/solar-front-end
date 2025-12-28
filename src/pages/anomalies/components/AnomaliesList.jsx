@@ -6,8 +6,7 @@ import {
   useGetAnomaliesForUserQuery,
   useGetAnomalyStatisticsQuery,
   useResolveAnomalyMutation,
-  useGetEnergyGenerationRecordsBySolarUnitQuery,
- // useRunAnomalyDetectionMutation,
+  useGetEnergyGenerationRecordsBySolarUnitQuery,useRunAnomalyDetectionMutation,
 } from "@/lib/redux/query";
 import { useState } from "react";
 import {
@@ -41,6 +40,18 @@ const AnomaliesList = () => {
   });
 
   const [resolveAnomaly] = useResolveAnomalyMutation();
+  const [runAnomalyDetection, { isLoading: isDetecting }] = useRunAnomalyDetectionMutation();
+
+  const handleRunDetection = async () => {
+    try {
+      const result = await runAnomalyDetection().unwrap();
+      console.log("Anomaly detection result:", result);
+      // Refetch anomalies after detection
+      refetch();
+    } catch (error) {
+      console.error("Failed to run anomaly detection:", error);
+    }
+  };
 
   const handleResolve = async (anomalyId) => {
     try {
@@ -105,9 +116,10 @@ const AnomaliesList = () => {
 
   return (
     <div className="space-y-6">
-      {/* Filters */}
+      {/* Filters and Detection Button */}
       <Card className="rounded-md p-4">
-        <div className="flex flex-wrap gap-4 items-end">
+        <div className="flex flex-wrap gap-4 items-end justify-between mb-4">
+          <div className="flex flex-wrap gap-4 items-end flex-1">
           <div className="flex-1 min-w-[200px]">
             <label className="text-sm font-medium mb-2 block">Filter by Type</label>
             <Select value={typeFilter} onValueChange={setTypeFilter}>
@@ -152,6 +164,15 @@ const AnomaliesList = () => {
               </SelectContent>
             </Select>
           </div>
+          </div>
+          <Button
+            onClick={handleRunDetection}
+            disabled={isDetecting}
+            variant="default"
+            className="min-w-[180px]"
+          >
+            {isDetecting ? "Detecting..." : "Run Anomaly Detection"}
+          </Button>
         </div>
       </Card>
 
