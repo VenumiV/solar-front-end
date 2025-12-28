@@ -66,19 +66,23 @@ const SolarEnergyProduction = () => {
   console.log(filteredEnergyProductionData);
 
   return (
-    <section className="px-12 font-[Inter] py-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Solar Energy Production</h2>
-        <p className="text-gray-600">Daily energy output for the past 7 days</p>
+    <section className="px-4 sm:px-6 lg:px-12 font-[Inter] py-8 sm:py-12 bg-white">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-gray-900">Solar Energy Production</h2>
+          <p className="text-gray-600 text-sm sm:text-base">Daily energy output for the past 7 days</p>
+        </div>
+        <div className="mt-6 flex items-center gap-x-4 flex-wrap">
+          {tabs.map((tab) => {
+            return <Tab key={tab.value} tab={tab} />;
+          })}
+        </div>
+        <div className="mt-6">
+          <EnergyProductionCards
+            energyProductionData={filteredEnergyProductionData}
+          />
+        </div>
       </div>
-      <div className="mt-4 flex items-center gap-x-4">
-        {tabs.map((tab) => {
-          return <Tab key={tab.value} tab={tab} />;
-        })}
-      </div>
-      <EnergyProductionCards
-        energyProductionData={filteredEnergyProductionData}
-      />
     </section>
   );
 };

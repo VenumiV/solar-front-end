@@ -4,75 +4,83 @@ import backgroundImage from "@/assets/images/Solar-Panels.png";
 
 
 export default function HeroSection() {
+  const features = [
+    {
+      icon: Wind,
+      title: "Solar Energy",
+      bgColor: "bg-gradient-to-br from-green-600 to-green-800",
+    },
+    {
+      icon: Sailboat,
+      title: "Home Dashboard",
+      bgColor: "bg-gradient-to-br from-blue-400 to-blue-600",
+    },
+    {
+      icon: Triangle,
+      title: "Real-Time Monitoring",
+      bgColor: "bg-gradient-to-br from-green-600 to-green-800",
+    },
+    {
+      icon: Shield,
+      title: "Anomaly Detection",
+      bgColor: "bg-gradient-to-br from-blue-400 to-blue-600",
+    },
+  ];
+
   return (
-    <div className="bg-white px-12 font-[Inter]">
-      {/* Navigation Bar */}
-      <nav className="flex flex-wrap items-center justify-between py-6">
-        <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-900 sm:h-12 sm:w-12">
-            <Wind className="h-5 w-5 text-white sm:h-6 sm:w-6" />
-          </div>
-          <span className="text-center text-xs font-medium text-gray-900 sm:text-left sm:text-sm">
-            Solar Energy
-          </span>
-        </div>
+    <div className="bg-gradient-to-br from-white via-blue-50/30 to-green-50/30 font-[Inter] overflow-hidden">
+      {/* Features Bar */}
+      <div className="px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
+        <nav className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 lg:gap-8">
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+            return (
+              <div
+                key={index}
+                className={`flex flex-col sm:flex-row items-center gap-2 sm:gap-3 px-4 py-3 rounded-xl ${feature.bgColor} shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group`}
+              >
+                <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm group-hover:bg-white/30 transition-colors">
+                  <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+                </div>
+                <span className="text-center text-xs sm:text-sm font-semibold text-white whitespace-nowrap">
+                  {feature.title}
+                </span>
+              </div>
+            );
+          })}
+        </nav>
+      </div>
 
-        <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-400 sm:h-12 sm:w-12">
-            <Sailboat className="h-5 w-5 text-white sm:h-6 sm:w-6" />
-          </div>
-          <span className="text-center text-xs font-medium text-gray-900 sm:text-left sm:text-sm">
-            Home Dashboard
-          </span>
-        </div>
-
-        <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-900 sm:h-12 sm:w-12">
-            <Triangle className="h-5 w-5 fill-current text-white sm:h-6 sm:w-6" />
-          </div>
-          <span className="text-center text-xs font-medium text-gray-900 sm:text-left sm:text-sm">
-            Real-Time Monitoring
-          </span>
-        </div>
-
-        <div className="hidden flex-col items-center gap-2 sm:flex sm:flex-row sm:gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-400 sm:h-12 sm:w-12">
-            <Shield className="h-5 w-5 text-white sm:h-6 sm:w-6" />
-          </div>
-          <span className="text-center text-xs font-medium text-gray-900 sm:text-left sm:text-sm">
-            Anomaly Detection
-          </span>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <main className="relative px-4 py-4 md:px-6 md:py-16">
-            <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
+      {/* Main Hero Content */}
+      <main className="relative px-4 sm:px-6 lg:px-12 py-8 sm:py-12 md:py-20 lg:py-24">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-10 pointer-events-none"
           style={{ backgroundImage: `url(${backgroundImage})` }}
         />
-        <div>
-          {/* Hero Section */}
-          <div className="mb-12 md:mb-24">
-            <h1 className="text-4xl leading-tight font-bold text-black sm:text-5xl sm:leading-20 md:text-7xl md:leading-32 xl:text-8xl">
-              <div>Monitor Your Home's</div>
-              <div className="flex flex-row items-center gap-4 sm:gap-8">
-                <span>Solar Energy</span>
-                <div className="relative">
+        <div className="relative z-10 max-w-7xl mx-auto">
+          {/* Hero Heading */}
+          <div className="mb-8 sm:mb-12 md:mb-16 lg:mb-20">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight font-bold text-gray-900">
+              <div className="mb-2 sm:mb-4">Monitor Your Home's</div>
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-2 sm:mb-4">
+                <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+                  Solar Energy
+                </span>
+                <div className="relative animate-bounce-slow">
                   <img
                     src={imgWindTurbine}
-                    alt="Solar panels on a house roof"
-                    className="max-h-8 rounded-xl object-cover sm:max-h-16 md:max-h-20 md:rounded-2xl"
+                    alt="Wind turbine"
+                    className="h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-16 lg:h-20 lg:w-20 rounded-xl object-cover shadow-lg"
                   />
                 </div>
               </div>
-              <div className="flex items-center gap-4 sm:gap-8">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-2 sm:mb-4">
                 <span>with Real-Time</span>
               </div>
-              <div className="flex flex-row items-center gap-4 sm:gap-8">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8">
                 <span>Insights & Alerts</span>
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-400 sm:h-14 sm:w-14 md:h-16 md:w-16">
-                  <Triangle className="h-5 w-5 fill-current text-white sm:h-7 sm:w-7 md:h-8 md:w-8" />
+                <div className="flex h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg animate-pulse">
+                  <Triangle className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 fill-current text-white" />
                 </div>
               </div>
             </h1>

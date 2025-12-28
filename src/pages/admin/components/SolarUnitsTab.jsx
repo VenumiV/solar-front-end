@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useGetSolarUnitsQuery } from "@/lib/redux/query";
-import { Zap } from "lucide-react";
+import { Zap, Plus, AlertCircle } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 export function SolarUnitsTab() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,15 +14,32 @@ export function SolarUnitsTab() {
   const { data: solarUnits, isLoading: isLoadingSolarUnits, isError: isErrorSolarUnits, error: errorSolarUnits } = useGetSolarUnitsQuery();
 
   if (isLoadingSolarUnits) {
-    return <div>Loading...</div>;
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <Skeleton className="h-10 w-32" />
+        </div>
+        <Skeleton className="h-10 w-full max-w-md" />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-48 w-full" />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (isErrorSolarUnits) {
-    return <div>Error: {errorSolarUnits.message}</div>;
+    return (
+      <Card className="border-red-200 bg-red-50">
+        <CardContent className="py-8 text-center">
+          <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+          <p className="text-red-600 font-medium">Error loading solar units</p>
+          <p className="text-sm text-red-500 mt-2">{errorSolarUnits?.message || "Unknown error"}</p>
+        </CardContent>
+      </Card>
+    );
   }
-
-  console.log(solarUnits);
-
 
   const filteredUnits = searchTerm !== "" ? solarUnits.filter(
     (unit) =>
@@ -30,7 +48,12 @@ export function SolarUnitsTab() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <Button>Add New Unit</Button>
+        <Button asChild>
+          <Link to="/admin/solar-units/create">
+            <Plus className="mr-2 h-4 w-4" />
+            Add New Unit
+          </Link>
+        </Button>
       </div>
 
       <div className="w-full max-w-md">
@@ -52,10 +75,13 @@ export function SolarUnitsTab() {
                 </div>
               </div>
               <div
-                className={`px-3 py-1 rounded-full text-xs font-medium ${unit.status === "Active"
+                className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  unit.status === "ACTIVE"
                     ? "bg-green-100 text-green-800"
+                    : unit.status === "MAINTENANCE"
+                    ? "bg-yellow-100 text-yellow-800"
                     : "bg-gray-100 text-gray-800"
-                  }`}
+                }`}
               >
                 {unit.status}
               </div>
@@ -65,9 +91,23 @@ export function SolarUnitsTab() {
               <div>
                 <p className="text-xs text-muted-foreground mb-1">Capacity</p>
                 <p className="text-lg font-semibold text-foreground">
-                  {unit.capacity}
+                  {unit.capacity} kW
                 </p>
               </div>
+              {unit.userId && (
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">Assigned User</p>
+                  <p className="text-sm font-medium text-foreground">
+                    {unit.userId.email}
+                    {unit.userId.firstName && ` (${unit.userId.firstName} ${unit.userId.lastName || ""})`}
+                  </p>
+                </div>
+              )}
+              {!unit.userId && (
+                <div>
+                  <p className="text-xs text-muted-foreground">No user assigned</p>
+                </div>
+              )}
               <div className="flex gap-2 pt-2">
                 <Button
                   variant="outline"
@@ -93,8 +133,12 @@ export function SolarUnitsTab() {
 
       {filteredUnits.length === 0 && (
         <Card className="p-12 text-center">
-          <p className="text-muted-foreground">
-            No solar units found matching "{searchTerm}"
+          <Zap className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-600 font-medium mb-2">
+            {searchTerm ? `No solar units found matching "${searchTerm}"` : "No solar units found"}
+          </p>
+          <p className="text-sm text-gray-500">
+            {searchTerm ? "Try adjusting your search term" : "Click 'Add New Unit' to create your first solar unit"}
           </p>
         </Card>
       )}

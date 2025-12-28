@@ -106,6 +106,29 @@ export const api = createApi({
         method: "POST",
       }),
     }),
+    // Invoice endpoints
+    getInvoices: build.query({
+      query: ({ status } = {}) => {
+        const params = new URLSearchParams();
+        if (status) params.append('status', status);
+        const queryString = params.toString();
+        return `/invoices${queryString ? `?${queryString}` : ''}`;
+      },
+    }),
+    getInvoiceById: build.query({
+      query: (id) => `/invoices/${id}`,
+    }),
+    // Payment endpoints
+    createPaymentSession: build.mutation({
+      query: (data) => ({
+        url: `/payments/create-checkout-session`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    getSessionStatus: build.query({
+      query: (sessionId) => `/payments/session-status?session_id=${sessionId}`,
+    }),
     
   }),
 });
@@ -126,4 +149,8 @@ export const {
   useResolveAnomalyMutation,
   useRunAnomalyDetectionMutation,
   useGetAllAnomaliesQuery,
+  useGetInvoicesQuery,
+  useGetInvoiceByIdQuery,
+  useCreatePaymentSessionMutation,
+  useGetSessionStatusQuery,
 } = api;

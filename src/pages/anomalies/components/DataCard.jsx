@@ -54,7 +54,7 @@ const DataCard = ({ title = "Solar Energy Production", solarUnitId }) => {
     return null;
   }
 
-  // Get last 7 days of data
+  //Get last 7 days of data
   const last7Days = data
 
   // Apply anomaly detection with options

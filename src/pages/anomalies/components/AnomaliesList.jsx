@@ -116,10 +116,9 @@ const AnomaliesList = () => {
 
   return (
     <div className="space-y-6">
-      {/* Filters and Detection Button */}
+      {/* Filters */}
       <Card className="rounded-md p-4">
-        <div className="flex flex-wrap gap-4 items-end justify-between mb-4">
-          <div className="flex flex-wrap gap-4 items-end flex-1">
+        <div className="flex flex-wrap gap-4 items-end">
           <div className="flex-1 min-w-[200px]">
             <label className="text-sm font-medium mb-2 block">Filter by Type</label>
             <Select value={typeFilter} onValueChange={setTypeFilter}>
@@ -164,15 +163,6 @@ const AnomaliesList = () => {
               </SelectContent>
             </Select>
           </div>
-          </div>
-          <Button
-            onClick={handleRunDetection}
-            disabled={isDetecting}
-            variant="default"
-            className="min-w-[180px]"
-          >
-            {isDetecting ? "Detecting..." : "Run Anomaly Detection"}
-          </Button>
         </div>
       </Card>
 
