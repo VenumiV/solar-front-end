@@ -1,12 +1,11 @@
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
-import { detectAnomalies } from "@/lib/anomalyDetection";
 import {
   useGetAnomaliesForUserQuery,
   useGetAnomalyStatisticsQuery,
   useResolveAnomalyMutation,
-  useGetEnergyGenerationRecordsBySolarUnitQuery,useRunAnomalyDetectionMutation,
+  useRunAnomalyDetectionMutation,
 } from "@/lib/redux/query";
 import { useState } from "react";
 import {
@@ -32,11 +31,13 @@ const AnomaliesList = () => {
   const { data: anomalies, isLoading, isError, refetch } = useGetAnomaliesForUserQuery({
     type: typeFilter !== "all" ? typeFilter : undefined,
     severity: severityFilter !== "all" ? severityFilter : undefined,
-    resolved: resolvedFilter === "true",
+    resolved: resolvedFilter === "true" ? true : resolvedFilter === "false" ? false : undefined,
+  }, {
+    skip: false, // Always fetch
   });
 
   const { data: statistics } = useGetAnomalyStatisticsQuery({
-    resolved: resolvedFilter === "true",
+    resolved: resolvedFilter === "true" ? true : resolvedFilter === "false" ? false : undefined,
   });
 
   const [resolveAnomaly] = useResolveAnomalyMutation();
@@ -116,9 +117,10 @@ const AnomaliesList = () => {
 
   return (
     <div className="space-y-6">
-      {/* Filters */}
+      {/* Filters and Actions */}
       <Card className="rounded-md p-4">
-        <div className="flex flex-wrap gap-4 items-end">
+        <div className="flex flex-wrap gap-4 items-end justify-between mb-4">
+          <div className="flex flex-wrap gap-4 items-end flex-1">
           <div className="flex-1 min-w-[200px]">
             <label className="text-sm font-medium mb-2 block">Filter by Type</label>
             <Select value={typeFilter} onValueChange={setTypeFilter}>
@@ -163,6 +165,17 @@ const AnomaliesList = () => {
               </SelectContent>
             </Select>
           </div>
+          </div>
+        </div>
+        <div className="flex justify-end">
+          <Button
+            onClick={handleRunDetection}
+            disabled={isDetecting}
+            variant="default"
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            {isDetecting ? "Running Detection..." : "Run Anomaly Detection"}
+          </Button>
         </div>
       </Card>
 
