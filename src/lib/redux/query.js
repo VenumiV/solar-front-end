@@ -118,6 +118,16 @@ export const api = createApi({
     getInvoiceById: build.query({
       query: (id) => `/invoices/${id}`,
     }),
+    getAllInvoices: build.query({
+      query: ({ status, userId, solarUnitId } = {}) => {
+        const params = new URLSearchParams();
+        if (status) params.append('status', status);
+        if (userId) params.append('userId', userId);
+        if (solarUnitId) params.append('solarUnitId', solarUnitId);
+        const queryString = params.toString();
+        return `/invoices/admin/all${queryString ? `?${queryString}` : ''}`;
+      },
+    }),
     // Payment endpoints
     createPaymentSession: build.mutation({
       query: (data) => ({
@@ -151,6 +161,7 @@ export const {
   useGetAllAnomaliesQuery,
   useGetInvoicesQuery,
   useGetInvoiceByIdQuery,
+  useGetAllInvoicesQuery,
   useCreatePaymentSessionMutation,
   useGetSessionStatusQuery,
 } = api;

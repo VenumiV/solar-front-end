@@ -31,11 +31,7 @@ const items = [
     url: "/dashboard/invoices",
     icon: <Receipt className="w-8 h-8" size={32} />,
   },
-  {
-    title: "Analytics",
-    url: "/dashboard/analytics",
-    icon: <ChartLine className="w-8 h-8" size={32} />,
-  },
+ 
 ];
 
 
