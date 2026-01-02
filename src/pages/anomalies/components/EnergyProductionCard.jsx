@@ -39,16 +39,16 @@ const EnergyProductionCard = (props) => {
 
   return (
     <button
-      className={`block cursor-pointer ${
+      className={`block cursor-pointer w-full ${
         isSelected ? "outline-2 outline-offset-2 outline-blue-600" : ""
       } relative border ${
         props.hasAnomaly ? "border-red-500" : "border-gray-300"
-      } rounded-lg transition-all hover:shadow-md`}
+      } rounded-lg transition-all hover:shadow-md overflow-hidden`}
       onClick={handleClick}
       title={props.hasAnomaly ? props.anomalyReason : "Normal operation"}
     >
       {props.hasAnomaly && (
-        <div className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-sm rounded-bl-lg">
+        <div className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-sm rounded-bl-lg z-10">
           Anomaly
         </div>
       )}
@@ -58,19 +58,25 @@ const EnergyProductionCard = (props) => {
         </span>
         <span className="block text-xs text-gray-500">{props.date}</span>
       </div>
-      <div className="p-6 pt-2 flex flex-col items-center">
+      <div className="p-6 pt-2 flex flex-col items-center min-h-[120px]">
         <span
           className={`block mb-1 text-3xl font-bold ${
             props.hasAnomaly ? "text-red-600" : "text-blue-600"
-          }`}
+          } break-words text-center`}
+          style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
         >
-          {props.production}
+          {typeof props.production === 'number' 
+            ? props.production.toLocaleString('en-US', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+              })
+            : props.production}
         </span>
         <span className="block text-sm font-medium text-gray-500">kWh</span>
 
         {/* Show anomaly type and reason when detected */}
         {props.hasAnomaly && props.anomalyType && (
-          <div className="mt-2 px-2 py-1 bg-red-50 rounded text-xs text-red-700">
+          <div className="mt-2 px-2 py-1 bg-red-50 rounded text-xs text-red-700 text-center">
             {props.anomalyType}
           </div>
         )}

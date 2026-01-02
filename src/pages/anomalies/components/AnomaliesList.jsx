@@ -82,7 +82,7 @@ const AnomaliesList = () => {
       TEMPERATURE: "Temperature",
       SHADING: "Shading",
       SENSOR_ERROR: "Sensor Error",
-      BELOW_AVERAGE: "Below Average",
+      //BELOW_AVERAGE: "Below Average",
     };
     return names[type] || type;
   };
@@ -93,7 +93,7 @@ const AnomaliesList = () => {
     Temperature: "oklch(70% 0.15 50)",
     Shading: "oklch(60% 0.2 200)",
     "Sensor Error": "oklch(50% 0.25 0)",
-    "Below Average": "oklch(65% 0.18 280)",
+   // "Below Average": "oklch(65% 0.18 280)",
   };
 
   if (isLoading) {
@@ -133,7 +133,9 @@ const AnomaliesList = () => {
                 <SelectItem value="TEMPERATURE">Temperature</SelectItem>
                 <SelectItem value="SHADING">Shading</SelectItem>
                 <SelectItem value="SENSOR_ERROR">Sensor Error</SelectItem>
-                <SelectItem value="BELOW_AVERAGE">Below Average</SelectItem>
+                 {/*  <SelectItem value="BELOW_AVERAGE">Below Average</SelectItem> */}
+
+              
               </SelectContent>
             </Select>
           </div>

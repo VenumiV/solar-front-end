@@ -9,6 +9,7 @@ import {
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 export default function CheckoutForm({ invoiceId }) {
+  
   // Stripe calls this to get the client secret
   const fetchClientSecret = useCallback(async () => {
     const clerk = window.Clerk;
