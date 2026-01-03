@@ -290,15 +290,7 @@ const AnomaliesList = () => {
                       </span>
                     </div>
                   </div>
-                  {!anomaly.resolved && (
-                    <Button
-                      onClick={() => handleResolve(anomaly._id)}
-                      variant="outline"
-                      size="sm"
-                    >
-                      Mark as Resolved
-                    </Button>
-                  )}
+                 
                 </div>
               </div>
             ))}
