@@ -1,7 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 //const baseUrl = "http://localhost:8000/api";
-const baseUrl = import.meta.env.VITE_API_URL;
+//const baseUrl = "http://localhost:8000/api";
+ //const baseUrl =
+//import.meta.env.VITE_BACKEND_URL + "/api" || "http://localhost:8000/api";
+// query.ts
+  const baseUrl = import.meta.env.VITE_BACKEND_URL 
+  ? `${import.meta.env.VITE_BACKEND_URL}/api`
+  : "http://localhost:8000/api";
 
 // Define a service using a base URL and expected endpoints
 export const api = createApi({
@@ -10,7 +16,7 @@ export const api = createApi({
    const clerk = window.Clerk;
    if (clerk){
       const token = await clerk.session.getToken();
-      console.log(token);
+     // console.log(token);
     
     if(token){
       headers.set("Authorization", `Bearer ${(token)}`)
