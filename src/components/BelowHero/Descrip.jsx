@@ -1,6 +1,7 @@
 import React from "react";
 import solarPanel1 from "@/assets/images/Solar-Panels.png";
-import solarPanel2 from "@/assets/images/Solar-Panels.png";
+import solarRoof from "@/assets/images/solar-roof.jpeg";
+//import solarRoof2 from "@/assets/images/photo-solar.";
 import { useGetSolarUnitforUserQuery, useGetEnergyGenerationRecordsBySolarUnitQuery } from "@/lib/redux/query";
 import { useUser } from "@clerk/clerk-react";
 
@@ -80,8 +81,8 @@ const Descrip = () => {
         </div>
         <div className="order-1 lg:order-2">
           <img
-            src={solarPanel2} 
-            alt="Solar panels"
+            src={solarRoof} 
+            alt="Solar roof installation"
             className="rounded-xl sm:rounded-2xl w-full h-auto object-cover shadow-lg hover:shadow-xl transition-shadow duration-300"
           />
         </div>
@@ -90,8 +91,8 @@ const Descrip = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 w-full mt-12 sm:mt-16">
         <div className="relative">
           <img
-            src={solarPanel1} 
-            alt="Solar panels"
+            src={solarRoof} 
+            alt="Solar roof system"
             className="rounded-xl sm:rounded-2xl w-full h-auto object-cover shadow-lg hover:shadow-xl transition-all duration-300"
           />
         </div>
