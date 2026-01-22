@@ -44,8 +44,16 @@ const AnomaliesPage = () => {
   if (!solarUnit) {
     return (
       <main className="mt-4 px-4 sm:px-6 lg:px-8">
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center">
-          <p className="text-gray-600">No solar unit found for this user.</p>
+        <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-16 text-center max-w-2xl mx-auto">
+          <div className="mx-auto w-24 h-24 mb-6 rounded-full bg-blue-100 flex items-center justify-center">
+            <svg className="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">No Solar Unit Found</h3>
+          <p className="text-sm text-gray-600 max-w-md mx-auto">
+            You don't have a solar unit assigned to your account yet. Please contact your administrator to get a solar unit set up for you.
+          </p>
         </div>
       </main>
     );

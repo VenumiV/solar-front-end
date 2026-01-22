@@ -1,20 +1,56 @@
 import { useState, useEffect } from "react";
 import { fetchWeatherApi } from "openmeteo";
 
-const useWeather = (latitude = 7.75, longitude = 80.75) => {
+const useWeather = (latitude = null, longitude = null) => {
   const [weatherData, setWeatherData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [coords, setCoords] = useState({ latitude: null, longitude: null });
 
   useEffect(() => {
+    const getLocation = async () => {
+      // If coordinates are provided, use them
+      if (latitude !== null && longitude !== null) {
+        setCoords({ latitude, longitude });
+        return;
+      }
+
+      // Otherwise, try to get browser geolocation
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setCoords({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          () => {
+            // Fallback to default coordinates (Sri Lanka) if geolocation fails
+            setCoords({ latitude: 7.75, longitude: 80.75 });
+          }
+        );
+      } else {
+        // Fallback to default coordinates if geolocation is not supported
+        setCoords({ latitude: 7.75, longitude: 80.75 });
+      }
+    };
+
+    getLocation();
+  }, [latitude, longitude]);
+
+  useEffect(() => {
+    if (coords.latitude === null || coords.longitude === null) {
+      return; // Wait for coordinates
+    }
+
     const fetchWeather = async () => {
       try {
         setIsLoading(true);
         setError(null);
 
         const params = {
-          latitude: latitude,
-          longitude: longitude,
+          latitude: coords.latitude,
+          longitude: coords.longitude,
           hourly: ["temperature_2m", "wind_speed_10m"],
           timezone: "auto",
           past_days: 7,
@@ -80,7 +116,7 @@ const useWeather = (latitude = 7.75, longitude = 80.75) => {
     const interval = setInterval(fetchWeather, 10 * 60 * 1000);
 
     return () => clearInterval(interval);
-  }, [latitude, longitude]);
+  }, [coords.latitude, coords.longitude]);
 
   return { weatherData, isLoading, error };
 };

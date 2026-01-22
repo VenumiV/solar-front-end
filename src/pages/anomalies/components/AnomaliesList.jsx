@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/chart";
 import { Pie, PieChart, Cell, ResponsiveContainer, Legend } from "recharts";
 import { Button } from "@/components/ui/button";
+import { CheckCircle2 } from "lucide-react";
 
 const AnomaliesList = () => {
   const [typeFilter, setTypeFilter] = useState("all");
@@ -45,12 +46,11 @@ const AnomaliesList = () => {
 
   const handleRunDetection = async () => {
     try {
-      const result = await runAnomalyDetection().unwrap();
-      console.log("Anomaly detection result:", result);
+      await runAnomalyDetection().unwrap();
       // Refetch anomalies after detection
       refetch();
     } catch (error) {
-      console.error("Failed to run anomaly detection:", error);
+      // Error handling is done by RTK Query
     }
   };
 
@@ -59,7 +59,7 @@ const AnomaliesList = () => {
       await resolveAnomaly(anomalyId).unwrap();
       refetch();
     } catch (error) {
-      console.error("Failed to resolve anomaly:", error);
+      // Error handling is done by RTK Query
     }
   };
 
@@ -82,18 +82,16 @@ const AnomaliesList = () => {
       TEMPERATURE: "Temperature",
       SHADING: "Shading",
       SENSOR_ERROR: "Sensor Error",
-      //BELOW_AVERAGE: "Below Average",
     };
     return names[type] || type;
   };
 
-  // Colors for pie chart
+  // Colors for pie chart - more distinct colors for better differentiation
   const COLORS = {
-    Mechanical: "oklch(54.6% 0.245 262.881)",
-    Temperature: "oklch(70% 0.15 50)",
-    Shading: "oklch(60% 0.2 200)",
-    "Sensor Error": "oklch(50% 0.25 0)",
-   // "Below Average": "oklch(65% 0.18 280)",
+    Mechanical: "#ef4444", // Red
+    Temperature: "#f59e0b", // Amber/Orange
+    Shading: "#3b82f6", // Blue
+    "Sensor Error": "#8b5cf6", // Purple
   };
 
   if (isLoading) {
@@ -133,9 +131,6 @@ const AnomaliesList = () => {
                 <SelectItem value="TEMPERATURE">Temperature</SelectItem>
                 <SelectItem value="SHADING">Shading</SelectItem>
                 <SelectItem value="SENSOR_ERROR">Sensor Error</SelectItem>
-                 {/*  <SelectItem value="BELOW_AVERAGE">Below Average</SelectItem> */}
-
-              
               </SelectContent>
             </Select>
           </div>
@@ -246,8 +241,16 @@ const AnomaliesList = () => {
         </h2>
 
         {filteredAnomalies.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
-            <p>No anomalies found matching your filters.</p>
+          <div className="text-center py-12">
+            <div className="mx-auto w-24 h-24 mb-4 rounded-full bg-green-100 flex items-center justify-center">
+              <CheckCircle2 className="h-12 w-12 text-green-600" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No Anomalies Found</h3>
+            <p className="text-sm text-gray-600 max-w-md mx-auto">
+              {typeFilter !== "all" || severityFilter !== "all" || resolvedFilter !== "false"
+                ? "No anomalies match your current filters. Try adjusting your filter settings."
+                : "Great news! Your solar system is operating normally with no detected anomalies."}
+            </p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -290,7 +293,17 @@ const AnomaliesList = () => {
                       </span>
                     </div>
                   </div>
-                 
+                  {!anomaly.resolved && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleResolve(anomaly._id)}
+                      className="whitespace-nowrap"
+                    >
+                      <CheckCircle2 className="h-4 w-4 mr-2" />
+                      Mark Resolved
+                    </Button>
+                  )}
                 </div>
               </div>
             ))}

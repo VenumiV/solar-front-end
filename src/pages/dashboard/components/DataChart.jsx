@@ -55,17 +55,12 @@ const DataChart = ({ solarUnitId }) => {
     
     if (selectedRange === "1") {
       if (!ungroupedData || ungroupedData.length === 0) {
-        console.log("No ungrouped data available");
         return [];
       }
       
       // Process 1 day data into 4-hour intervals
       const now = new Date();
       const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-
-      console.log("Now:", now);
-      console.log("One day ago:", oneDayAgo);
-      console.log("Ungrouped data sample:", ungroupedData.slice(0, 3));
 
       // Filter records from last 24 hours (with a small buffer for timezone issues)
       const bufferMs = 1 * 60 * 60 * 1000; // 1 hour buffer
@@ -78,9 +73,6 @@ const DataChart = ({ solarUnitId }) => {
           return isValid;
         })
         .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-
-      console.log("Last 24 hours records:", last24Hours.length);
-      console.log("Sample records:", last24Hours.slice(0, 3));
 
       // Create 6 intervals of 4 hours each, from oldest to newest (left to right)
       // Intervals span the last 24 hours, which may cross day boundaries
@@ -109,12 +101,6 @@ const DataChart = ({ solarUnitId }) => {
         intervals.push({ start: intervalStart, end: intervalEnd, label });
       }
 
-      console.log("Intervals:", intervals.map(i => ({ 
-        label: i.label, 
-        start: format(i.start, "MMM d HH:mm"), 
-        end: format(i.end, "MMM d HH:mm")
-      })));
-
       const chartDataPoints = intervals.map((interval) => {
         // Check if interval overlaps with solar generation hours (8 AM - 5 PM)
         const intervalStartHour = interval.start.getHours();
@@ -131,7 +117,6 @@ const DataChart = ({ solarUnitId }) => {
         // If interval is completely outside solar hours (8 AM - 5 PM), set energy to zero
         // Energy should ONLY be produced during 8 AM - 5 PM, all other times must be zero
         if (!intervalOverlapsSolarHours) {
-          console.log(`Interval ${interval.label}: Outside solar hours (8 AM - 5 PM), setting to 0`);
           return {
             time: interval.label,
             energy: 0,
@@ -159,17 +144,11 @@ const DataChart = ({ solarUnitId }) => {
         // Ensure final result is never negative (can be zero but not negative)
         const powerKw = Math.max(0, totalEnergy / 4);
 
-        console.log(`Interval ${interval.label}: ${intervalRecords.length} records, ${totalEnergy} kWh, ${powerKw} kW`);
-
         return {
           time: interval.label,
           energy: Math.max(0, parseFloat(powerKw.toFixed(2))), // Double-check to ensure non-negative
         };
       });
-
-      // Debug: Log the processed data
-      console.log("1 Day Chart Data Points:", chartDataPoints);
-      console.log("Chart data length:", chartDataPoints.length);
 
       return chartDataPoints;
     } else {

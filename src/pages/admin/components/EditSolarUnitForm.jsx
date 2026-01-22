@@ -43,9 +43,6 @@ export function EditSolarUnitForm({ solarUnit }) {
 //get all users
     const { data: users, isLoading: isLoadingUsers, isError: isErrorUsers, error: errorUsers } = useGetAllUsersQuery();
 
-
-    console.log(users);
-
     async function onSubmit(values) {
         try {
             await editSolarUnit({ id, data: values }).unwrap();

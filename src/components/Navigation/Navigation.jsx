@@ -2,11 +2,13 @@ import { Link } from "react-router";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import solarLogo from "@/assets/images/solar-logo.svg";
-import { LayoutDashboard, Menu, X } from "lucide-react";
+import { LayoutDashboard, Menu, X, PlayCircle } from "lucide-react";
 import { useState } from "react";
+import DemoTutorial from "@/components/DemoTutorial/DemoTutorial";
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [demoOpen, setDemoOpen] = useState(false);
 
   return (
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
@@ -29,6 +31,15 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6 lg:gap-12">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setDemoOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <PlayCircle className="w-4 h-4" />
+              <span>Watch Demo</span>
+            </Button>
             <SignedIn>
               <Link 
                 to="/dashboard" 
@@ -70,6 +81,18 @@ const Navigation = () => {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4 space-y-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setDemoOpen(true);
+                setMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center justify-center gap-2"
+            >
+              <PlayCircle className="w-4 h-4" />
+              <span>Watch Demo</span>
+            </Button>
             <SignedIn>
               <Link 
                 to="/dashboard" 
@@ -102,6 +125,9 @@ const Navigation = () => {
           </div>
         )}
       </div>
+
+      {/* Demo Tutorial Modal */}
+      <DemoTutorial open={demoOpen} onOpenChange={setDemoOpen} />
     </nav>
   );
 };

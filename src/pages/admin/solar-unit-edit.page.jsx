@@ -7,8 +7,6 @@ export default function SolarUnitEditPage() {
   const navigate = useNavigate();
 
   const { data: solarUnit, isLoading: isLoadingSolarUnit, isError: isErrorSolarUnit, error: errorSolarUnit } = useGetSolarUnitByIdQuery(id);
-  
-  console.log(solarUnit);
 
   if (isLoadingSolarUnit) {
     return <div>Loading...</div>;
@@ -20,12 +18,10 @@ export default function SolarUnitEditPage() {
 
   const handleEdit = () => {
     // TODO: Navigate to edit page
-    console.log("Edit solar unit:", solarUnit._id);
   };
 
   const handleDelete = () => {
     // TODO: Implement delete with confirmation
-    console.log("Delete solar unit:", solarUnit._id);
   };
 
   return (

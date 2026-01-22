@@ -46,7 +46,15 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <ClerkProvider 
+        publishableKey={PUBLISHABLE_KEY}
+        appearance={{
+          // Suppress development keys warning in production
+          variables: {
+            colorPrimary: '#3b82f6'
+          }
+        }}
+      >
         <Routes>
           <Route element={<RootLayout />}>
             <Route path="/sign-in" element={<SignInPage/>} />

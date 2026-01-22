@@ -4,41 +4,52 @@ import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
+import { useCreatePaymentSessionMutation } from "@/lib/redux/query";
 
 // Initialize Stripe ONCE, outside component
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 export default function CheckoutForm({ invoiceId }) {
+  const [createPaymentSession, { isLoading, error }] = useCreatePaymentSessionMutation();
   
   // Stripe calls this to get the client secret
   const fetchClientSecret = useCallback(async () => {
-    const clerk = window.Clerk;
-    if (!clerk) {
-      throw new Error("Clerk not initialized");
-    }
-
-    const token = await clerk.session.getToken();
-
-    const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/payments/create-checkout-session`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ invoiceId }),
+    try {
+      if (!invoiceId) {
+        throw new Error("Invoice ID is required");
       }
-    );
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to create checkout session");
+      
+      const result = await createPaymentSession({ invoiceId }).unwrap();
+      
+      if (!result?.clientSecret) {
+        throw new Error("No client secret received from server");
+      }
+      
+      return result.clientSecret;
+    } catch (error) {
+      const errorMessage = error?.data?.message || error?.message || "Failed to create checkout session";
+      console.error("Stripe checkout error:", error);
+      throw new Error(errorMessage);
     }
+  }, [invoiceId, createPaymentSession]);
 
-    const data = await response.json();
-    return data.clientSecret;
-  }, [invoiceId]);
+  if (isLoading) {
+    return (
+      <div className="mt-4 sm:mt-6 p-8 text-center">
+        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <p className="mt-4 text-sm text-gray-600">Loading checkout...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="mt-4 sm:mt-6 p-6 bg-red-50 border border-red-200 rounded-lg">
+        <p className="text-red-600 font-medium mb-2">Error loading checkout</p>
+        <p className="text-sm text-red-500">{error?.data?.message || error?.message || "Please try again later"}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-4 sm:mt-6">

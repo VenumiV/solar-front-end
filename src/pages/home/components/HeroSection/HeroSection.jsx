@@ -1,9 +1,13 @@
-import imgWindTurbine from "./wind-turbine.png";
-import { Sailboat, Shield, Triangle, Wind } from "lucide-react";
+import { useState } from "react";
+import { Sailboat, Shield, Triangle, Wind, Sun, PlayCircle } from "lucide-react";
 import backgroundImage from "@/assets/images/Solar-Panels.png";
+import { Button } from "@/components/ui/button";
+import DemoTutorial from "@/components/DemoTutorial/DemoTutorial";
 
 
 export default function HeroSection() {
+  const [demoOpen, setDemoOpen] = useState(false);
+  
   const features = [
     {
       icon: Wind,
@@ -67,11 +71,9 @@ export default function HeroSection() {
                   Solar Energy
                 </span>
                 <div className="relative animate-bounce-slow">
-                  <img
-                    src={imgWindTurbine}
-                    alt="Wind turbine"
-                    className="h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-16 lg:h-20 lg:w-20 rounded-xl object-cover shadow-lg"
-                  />
+                  <div className="h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-16 lg:h-20 lg:w-20 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg flex items-center justify-center">
+                    <Sun className="h-4 w-4 sm:h-6 sm:w-6 md:h-8 md:w-8 lg:h-10 lg:w-10 text-white fill-current" />
+                  </div>
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-2 sm:mb-4">
@@ -85,8 +87,23 @@ export default function HeroSection() {
               </div>
             </h1>
           </div>
+
+          {/* Demo Button */}
+          <div className="flex justify-center mt-8 sm:mt-12">
+            <Button
+              onClick={() => setDemoOpen(true)}
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-6 text-lg font-semibold"
+            >
+              <PlayCircle className="mr-2 h-5 w-5" />
+              Watch Demo
+            </Button>
+          </div>
         </div>
       </main>
+
+      {/* Demo Tutorial Modal */}
+      <DemoTutorial open={demoOpen} onOpenChange={setDemoOpen} />
     </div>
   );
 }

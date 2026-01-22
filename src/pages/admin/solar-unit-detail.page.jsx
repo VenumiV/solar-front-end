@@ -22,12 +22,10 @@ export default function SolarUnitDetailPage() {
 
   const handleEdit = () => {
     // TODO: Navigate to edit page
-    console.log("Edit solar unit:", solarUnit._id);
   };
 
   const handleDelete = () => {
     // TODO: Implement delete with confirmation
-    console.log("Delete solar unit:", solarUnit._id);
   };
 
   return (

@@ -226,14 +226,16 @@ const InvoicesPage = () => {
             </Card>
           ))
         ) : (
-          <Card className="border-dashed">
-            <CardContent className="py-12 sm:py-16 text-center">
-              <Receipt className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No invoices found</h3>
-              <p className="text-sm text-gray-600 max-w-sm mx-auto">
+          <Card className="border-dashed border-2">
+            <CardContent className="py-16 sm:py-20 text-center">
+              <div className="mx-auto w-24 h-24 mb-6 rounded-full bg-blue-100 flex items-center justify-center">
+                <Receipt className="h-12 w-12 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">No Invoices Found</h3>
+              <p className="text-sm text-gray-600 max-w-md mx-auto">
                 {statusFilter !== "all" 
-                  ? `No invoices with status "${statusFilter}" found.` 
-                  : "You don't have any invoices yet. Invoices will be generated automatically each month."}
+                  ? `No invoices with status "${statusFilter}" found. Try selecting a different status filter.` 
+                  : "You don't have any invoices yet. Invoices will be generated automatically each month based on your solar energy production."}
               </p>
             </CardContent>
           </Card>
