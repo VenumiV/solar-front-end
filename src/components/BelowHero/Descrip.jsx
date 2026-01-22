@@ -1,7 +1,6 @@
 import React from "react";
 import solarPanel1 from "@/assets/images/Solar-Panels.png";
-import solarRoof from "@/assets/images/solar-roof.jpeg";
-//import solarRoof2 from "@/assets/images/photo-solar.";
+import solarRoof from "@/assets/images/solar-roof.jpg";
 import { useGetSolarUnitforUserQuery, useGetEnergyGenerationRecordsBySolarUnitQuery } from "@/lib/redux/query";
 import { useUser } from "@clerk/clerk-react";
 
